@@ -19,10 +19,10 @@ public class ChecklistController {
 
 
     @PostMapping("/report")
-    public void sendReport(@RequestParam String email) {
+    public void sendReport(@RequestParam String email, @RequestParam String name) {
         var items = service.getAllItems();
         var sb = new StringBuilder();
-        sb.append("Checklist Report:\n\n");
+        sb.append("Checklist Report von ").append(name).append(": \n\n");
 
         for (ChecklistItem item : items) {
             sb.append("- ")
@@ -31,7 +31,9 @@ public class ChecklistController {
               .append("\n");
         }
 
-        emailService.sendChecklistReport(email, "Checklist Report", sb.toString());
+        String subject = "Checklist Report - " + name;
+
+        emailService.sendChecklistReport(email, subject, sb.toString());
     }
 
 

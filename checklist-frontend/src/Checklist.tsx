@@ -10,6 +10,8 @@ const API_URL = "http://localhost:8080/api/checklist";
 const Checklist: React.FC = () => {
   const [items, setItems] = useState<ChecklistItem[]>([]);
   const [newItem, setNewItem] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+
 
   useEffect(() => {
     fetchItems();
@@ -59,12 +61,12 @@ const Checklist: React.FC = () => {
   };
 
   const DEFAULT_EMAIL = process.env.REACT_APP_MAIL_GETTER;
-  console.log("DEFAULT_EMAIL", DEFAULT_EMAIL);
   const handleSendReport = async () => {
     try {
       await axios.post("http://localhost:8080/api/checklist/report", null, {
         params: {
           email: DEFAULT_EMAIL, // <-- Empfänger Mail
+          name: userName,
         },
       });
       alert("Report wurde erfolgreich an HR gesendet!");
@@ -80,6 +82,17 @@ const Checklist: React.FC = () => {
   return (
     <div id="checklist-container" className="max-w-md mx-auto p-6 bg-white shadow-md rounded">
       <h1 className="text-2xl font-bold mb-4">📝 Meine Checkliste</h1>
+
+      <div className="flex mb-4">
+        <input
+          type="text"
+          className="flex-1 px-3 py-2 border rounded"
+          placeholder="Dein Name..."
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+      </div>
+
 
       {/* Fortschrittsanzeige */}
 <div className="mb-4">
