@@ -58,11 +58,13 @@ const Checklist: React.FC = () => {
     pdf.save("checklist-report.pdf");
   };
 
+  const DEFAULT_EMAIL = process.env.REACT_APP_MAIL_GETTER;
+  console.log("DEFAULT_EMAIL", DEFAULT_EMAIL);
   const handleSendReport = async () => {
     try {
       await axios.post("http://localhost:8080/api/checklist/report", null, {
         params: {
-          email: "hr@example.com",
+          email: DEFAULT_EMAIL, // <-- Empfänger Mail
         },
       });
       alert("Report wurde erfolgreich an HR gesendet!");
@@ -76,7 +78,7 @@ const Checklist: React.FC = () => {
   const progress = (completedCount / items.length) * 100;
 
   return (
-    <div id="checklist-container" className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded">
+    <div id="checklist-container" className="max-w-md mx-auto p-6 bg-white shadow-md rounded">
       <h1 className="text-2xl font-bold mb-4">📝 Meine Checkliste</h1>
 
       {/* Fortschrittsanzeige */}
@@ -128,20 +130,22 @@ const Checklist: React.FC = () => {
               onClick={() => updateItem(item)}
             >
               {item.description}
-            </div>
-            <button
-              onClick={() => deleteItem(item.id)}
-              className="text-red-600 hover:text-red-800 text-2xl font-bold"
-            >
-              &#10005;
-            </button>
 
-
-
-          </li>
-
-        ))}
-      </ul>
+            </div>{item.completed ? (
+                <span className="text-green-600 text-2xl font-bold cursor-pointer" onClick={() => updateItem(item)}>
+                  &#10003; {/* Grüner Haken */}
+                </span>
+              ) : (
+                <button
+                  onClick={() => deleteItem(item.id)}
+                  className="text-red-600 hover:text-red-800 text-2xl font-bold"
+                >
+                  &#10005; {/* Rotes Kreuz */}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
       <div>
         <button
           onClick={() => handleExport()}

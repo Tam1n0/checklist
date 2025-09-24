@@ -15,7 +15,7 @@ public class EmailService {
 
     public void sendChecklistReport(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("deine-email@gmail.com"); // muss zum SMTP-Account passen
+        message.setFrom("tamino0708@gmail.com"); // muss zum SMTP-Account in der .env passen
         message.setTo(toEmail);
         message.setSubject(subject);
         message.setText(body);
