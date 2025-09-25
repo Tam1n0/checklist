@@ -17,12 +17,12 @@ const Checklist: React.FC = () => {
     fetchItems();
   }, []);
 
-  const fetchItems = async () => {
+  const fetchItems = async () => { // holt Items vom Backend
     const res = await axios.get<ChecklistItem[]>(API_URL);
     setItems(res.data);
   };
 
-  const addItem = async () => {
+  const addItem = async () => { // fügt Checklist Items hinzu
     if (!newItem.trim()) return;
 
     const res = await axios.post<ChecklistItem>(API_URL, {
@@ -33,7 +33,7 @@ const Checklist: React.FC = () => {
     setNewItem("");
   };
 
-  const updateItem = async (item: ChecklistItem) => {
+  const updateItem = async (item: ChecklistItem) => { // aktualisiert Checklist Items
     const res = await axios.put<ChecklistItem>(`${API_URL}/${item.id}`, {
       ...item,
       completed: !item.completed,
@@ -41,13 +41,13 @@ const Checklist: React.FC = () => {
     setItems(items.map((i) => (i.id === res.data.id ? res.data : i)));
   };
 
-  const deleteItem = async (id?: number) => {
+  const deleteItem = async (id?: number) => { // löscht die Checklist Items
     if (!id) return;
     await axios.delete(`${API_URL}/${id}`);
     setItems(items.filter((i) => i.id !== id));
   };
 
-  const handleExport = async () => {
+  const handleExport = async () => { // Funktion zum Exportieren nach PDF (beta)
     const checklistElement = document.getElementById("checklist-container");
     if (!checklistElement) return;
 
@@ -60,8 +60,8 @@ const Checklist: React.FC = () => {
     pdf.save("checklist-report.pdf");
   };
 
-  const DEFAULT_EMAIL = process.env.REACT_APP_MAIL_GETTER;
-  const handleSendReport = async () => {
+  const DEFAULT_EMAIL = process.env.REACT_APP_MAIL_GETTER; // <-- Empfänger Mail aus .env Datei
+  const handleSendReport = async () => { // Funktion um Email report an HR/Beliebige Email zu senden
     try {
       await axios.post("http://localhost:8080/api/checklist/report", null, {
         params: {
@@ -79,12 +79,13 @@ const Checklist: React.FC = () => {
   const completedCount = items.filter((item) => item.completed).length;
   const progress = (completedCount / items.length) * 100;
 
-  return (
+  return ( // JSX / template
     <div id="checklist-container" className="max-w-md mx-auto p-6 bg-white shadow-md rounded">
       <h1 className="text-2xl font-bold mb-4">📝 Meine Checkliste</h1>
 
       <div className="flex mb-4">
         <input
+          required
           type="text"
           className="flex-1 px-3 py-2 border rounded"
           placeholder="Dein Name..."
@@ -95,23 +96,23 @@ const Checklist: React.FC = () => {
 
 
       {/* Fortschrittsanzeige */}
-<div className="mb-4">
-  <div className="flex justify-between mb-1 text-sm font-medium text-gray-700">
-    <span>Fortschritt</span>
-    <span>
-      {completedCount} von {items.length} erledigt ({Math.round(progress)}%)
-    </span>
-  </div>
-  <div className="w-full bg-gray-200 rounded-full h-4">
-    <div
-      className={`h-4 rounded-full transition-all duration-300 ${
-        progress === 100 ? "bg-green-500" : "bg-blue-500"
-      }`}
-      style={{ width: `${progress}%` }}
-    ></div>
-  </div>
+      <div className="mb-4">
+        <div className="flex justify-between mb-1 text-sm font-medium text-gray-700">
+          <span>Fortschritt</span>
+          <span>
+          {completedCount} von {items.length} erledigt ({Math.round(progress)}%)
+          </span>
+        </div>
+   <div className="w-full bg-gray-200 rounded-full h-4">
+     <div
+        className={`h-4 rounded-full transition-all duration-300 ${
+          progress === 100 ? "bg-green-500" : "bg-blue-500"
+        }`}
+        style={{ width: `${progress}%` }}
+      ></div>
+    </div>
 
-</div>
+  </div>
 
 
       <div className="flex mb-4">
