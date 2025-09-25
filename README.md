@@ -1,21 +1,27 @@
-# Urlaubs-Checkliste
-### Urlaubs-Checkliste mit eingebautem Email-Report an HR.
 
+---
+
+# Urlaubs-Checkliste
+
+### Urlaubs-Checkliste mit eingebautem Email-Report an HR.
 
 ### Geschrieben in:
 
 ### Spring-Boot (Java)
 
-### React (TypeScript, TailwindCSS)
-
+### React (TypeScript, TailwindCSS, Vite)
 
 ### Email Report läuft über Google SMTP Server --> Gmail benötigt!
 
+---
 
 ## Dependencies
-- **Java 17 oder höher**
-- **Node.js + npm** (empfohlen: Node 18+)
-- **Git**
+
+* **Java 17 oder höher**
+* **Node.js + npm** (empfohlen: Node 18+)
+* **Git**
+
+---
 
 ## 📥 Projekt klonen
 
@@ -24,8 +30,7 @@ git clone https://github.com/Tam1n0/checklist.git
 cd checklist
 ```
 
-
-
+---
 
 # Wichtig:
 
@@ -86,10 +91,12 @@ MAIL_PASSWORD=dein-16-stelliges-app-passwort
 
 ### 📁 Frontend (`checklist-frontend/.env`)
 
+**Wichtig:** Vite benutzt das Präfix `VITE_` für Umgebungsvariablen.
+
 Erstelle die Datei `checklist-frontend/.env` und füge Folgendes ein:
 
 ```env
-REACT_APP_MAIL_GETTER=ziel.email@domain.de
+VITE_MAIL_GETTER=ziel.email@domain.de
 ```
 
 ---
@@ -101,7 +108,7 @@ Damit der Mailversand über deine Gmail-Adresse funktioniert, brauchst du ein **
 ### 🔐 Voraussetzungen:
 
 * Ein **Google-Konto mit 2-Faktor-Authentifizierung (2FA)** aktiviert.
-* falls noch nicht aktiviert --> https://myaccount.google.com/security
+* falls noch nicht aktiviert --> [https://myaccount.google.com/security](https://myaccount.google.com/security)
 
 ### ✅ App-Passwort generieren:
 
@@ -128,19 +135,20 @@ MAIL_PASSWORD=abcd efgh ijkl mnop
 ### checklist-frontend/.env (Frontend)
 
 ```
-REACT_APP_MAIL_GETTER=empfänger@domain.de
+VITE_MAIL_GETTER=empfänger@domain.de
 ```
 
 ---
 
 ## ❓ Häufige Probleme
 
-| Problem                          | Lösung                                                                         |
-| -------------------------------- | ------------------------------------------------------------------------------ |
-| `setup.sh` wird nicht ausgeführt | Stelle sicher, dass die Datei mit `chmod +x setup.sh` ausführbar gemacht wurde |
-| PowerShell blockiert Skript      | Führe `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` aus         |
-| E-Mails kommen nicht an          | Prüfe SMTP-Zugangsdaten und App-Passwort                                       |
-| `.env` ist im Git gelandet       | Füge sie zu `.gitignore` hinzu! (siehe unten)                                  |
+| Problem                             | Lösung                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| `setup.sh` wird nicht ausgeführt    | Stelle sicher, dass die Datei mit `chmod +x setup.sh` ausführbar gemacht wurde |
+| PowerShell blockiert Skript         | Führe `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` aus         |
+| E-Mails kommen nicht an             | Prüfe SMTP-Zugangsdaten und App-Passwort                                       |
+| `.env` ist im Git gelandet          | Füge sie zu `.gitignore` hinzu! (siehe unten)                                  |
+| Frontend liest VITE Variablen nicht | Stelle sicher, dass Variablen mit `VITE_` beginnen und neu gestartet wird      |
 
 ---
 
@@ -157,29 +165,32 @@ checklist-frontend/.env
 
 ---
 
-
 ## Start der Server:
 
-### Frontend:
-```
+### Frontend (Vite):
+
+```bash
 cd checklist-frontend
 npm install
-npm start
+npm run dev
 ```
---> die App läuft unter: http://localhost:3000
+
+* Die App läuft unter: [http://localhost:5173](http://localhost:5173) (Standardport von Vite)
+* Tipp: Wenn du einen anderen Port willst, kannst du ihn in `vite.config.ts` konfigurieren.
+
 ### Backend:
 
-
-```
+```bash
 # Stelle sicher, dass du im Projekt-Root bist
 ./mvnw spring-boot:run
 ```
 
-falls Maven Installiert ist:
+Falls Maven installiert ist:
 
-```
+```bash
 mvn spring-boot:run
 ```
-- Das Backend liest automatisch die .env-Werte mit der Bibliothek java-dotenv.
 
-Backend läuft auf: http://localhost:8080
+* Das Backend liest automatisch die .env-Werte mit der Bibliothek `java-dotenv`.
+* Backend läuft auf: [http://localhost:8080](http://localhost:8080)
+

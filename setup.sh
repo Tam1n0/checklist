@@ -24,11 +24,11 @@ fi
 
 # FRONTEND
 echo -e "\n📦 FRONTEND-Konfiguration ($FRONTEND_ENV)"
-read -p "➡️  Empfänger-Mail (REACT_APP_MAIL_GETTER): " REACT_APP_MAIL_GETTER
+read -p "➡️  Empfänger-Mail (VITE_MAIL_GETTER): " REACT_APP_MAIL_GETTER
 
 mkdir -p checklist-frontend
 cat > "$FRONTEND_ENV" <<EOL
-REACT_APP_MAIL_GETTER=$REACT_APP_MAIL_GETTER
+VITE_MAIL_GETTER=$VITE_MAIL_GETTER
 EOL
 
 echo -e "${GREEN}✅ $FRONTEND_ENV erstellt${NC}"

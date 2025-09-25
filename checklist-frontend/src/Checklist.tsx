@@ -60,7 +60,7 @@ const Checklist: React.FC = () => {
     pdf.save("checklist-report.pdf");
   };
 
-  const DEFAULT_EMAIL = process.env.REACT_APP_MAIL_GETTER; // <-- Empfänger Mail aus .env Datei
+  const DEFAULT_EMAIL = import.meta.env.VITE_MAIL_GETTER; // <-- Empfänger Mail aus .env Datei
   const handleSendReport = async () => { // Funktion um Email report an HR/Beliebige Email zu senden
     try {
       await axios.post("http://localhost:8080/api/checklist/report", null, {
