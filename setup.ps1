@@ -22,7 +22,7 @@ if (Test-Path $frontendEnv) {
 
 # FRONTEND
 Write-Host "`n📦 FRONTEND-Konfiguration ($frontendEnv)"
-$reactAppMailGetter = Read-Host "➡️  Empfänger-Mail (REACT_APP_MAIL_GETTER)"
+$viteMailGetter = Read-Host "➡️  Empfänger-Mail (VITE_MAIL_GETTER)"
 
 # Ordner erstellen falls nötig
 if (-not (Test-Path "checklist-frontend")) {
@@ -31,7 +31,7 @@ if (-not (Test-Path "checklist-frontend")) {
 
 # .env in Frontend schreiben
 @"
-REACT_APP_MAIL_GETTER=$reactAppMailGetter
+VITE_MAIL_GETTER=$viteMailGetter
 "@ | Out-File -Encoding UTF8 -FilePath $frontendEnv -Force
 
 Write-Host "${green}✅ $frontendEnv erstellt${reset}"

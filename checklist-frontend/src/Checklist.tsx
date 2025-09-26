@@ -160,20 +160,21 @@ const Checklist: React.FC = () => {
             </li>
           ))}
         </ul>
-      <div>
-        <button
-          onClick={() => handleExport()}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
+    <div className="flex flex-col sm:flex-row gap-2 mt-4">
+      <button
+        onClick={handleExport}
+        className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+      >
         Exportieren als PDF
-        </button>
-        <button
-          onClick={() => handleSendReport()}
-          className="bg-blue-500 text-white px-4 py-2 ml-10 rounded hover:bg-blue-600"
-        >
+      </button>
+      <button
+        onClick={handleSendReport}
+        className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+      >
         Check abgeschlossen
-        </button>
-      </div>
+      </button>
+    </div>
+
       <div>
 
       </div>
